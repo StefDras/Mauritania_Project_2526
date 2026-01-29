@@ -725,9 +725,109 @@
         font-size: var(--sds-font-size-xl);
       }
     }
+
+    /* ===== Password Protection ===== */
+    .password-overlay {
+      position: fixed;
+      inset: 0;
+      background: #fff;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .password-overlay.hidden {
+      display: none;
+    }
+
+    .password-box {
+      text-align: center;
+      padding: var(--sds-size-space-800);
+      max-width: 360px;
+      width: 100%;
+    }
+
+    .password-box img {
+      width: 80px;
+      height: 80px;
+      margin-bottom: var(--sds-size-space-600);
+    }
+
+    .password-box h1 {
+      font-size: var(--sds-font-size-xl);
+      margin-bottom: var(--sds-size-space-200);
+    }
+
+    .password-box p {
+      font-size: var(--sds-font-size-sm);
+      color: var(--sds-color-border-neutral-secondary);
+      margin-bottom: var(--sds-size-space-600);
+    }
+
+    .password-box input {
+      width: 100%;
+      padding: var(--sds-size-space-300) var(--sds-size-space-400);
+      font-size: var(--sds-font-size-md);
+      font-family: var(--sds-font-family);
+      border: var(--sds-size-stroke-border) solid var(--sds-color-border-default);
+      border-radius: var(--sds-size-radius-200);
+      margin-bottom: var(--sds-size-space-400);
+      text-align: center;
+    }
+
+    .password-box input:focus {
+      outline: none;
+      border-color: var(--sds-color-border-brand);
+    }
+
+    .password-box button {
+      width: 100%;
+      padding: var(--sds-size-space-300) var(--sds-size-space-600);
+      font-size: var(--sds-font-size-md);
+      font-weight: 700;
+      font-family: var(--sds-font-family);
+      background: var(--sds-color-background-brand-default);
+      color: var(--sds-color-text-brand-on-brand);
+      border: none;
+      border-radius: var(--sds-size-radius-200);
+      cursor: pointer;
+    }
+
+    .password-box button:hover {
+      background: var(--sds-color-background-brand-hover);
+    }
+
+    .password-box .error {
+      color: var(--sds-color-text-danger-default);
+      font-size: var(--sds-font-size-sm);
+      margin-top: var(--sds-size-space-300);
+    }
+
+    .protected-content {
+      display: none;
+    }
+
+    .protected-content.unlocked {
+      display: block;
+    }
   </style>
 </head>
 <body>
+
+  <!-- ===== PASSWORD PROTECTION ===== -->
+  <div class="password-overlay" id="password-overlay">
+    <div class="password-box">
+      <img src="sceauRIM.svg" alt="Sceau">
+      <h1>Prototype protégé</h1>
+      <p>Cette page est un prototype. Entrez le mot de passe pour continuer.</p>
+      <input type="password" id="password-input" placeholder="Mot de passe" onkeydown="if(event.key==='Enter')checkPassword()">
+      <button onclick="checkPassword()">Accéder</button>
+      <div class="error" id="password-error"></div>
+    </div>
+  </div>
+
+  <div class="protected-content" id="protected-content">
 
   <!-- ===== HEADER ===== -->
   <header class="header" role="banner">
@@ -862,6 +962,8 @@
     </div>
     <div class="footer-bottom" data-i18n="footer.copyright">© 2026 République islamique de Mauritanie. Tous droits réservés.</div>
   </footer>
+
+  </div><!-- end protected-content -->
 
   <script>
     // ===== i18n Strings =====
@@ -1222,6 +1324,35 @@
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') closeDropdown();
     });
+
+    // ===== Password Protection =====
+    const PASS_KEY = 'mauritania_proto_access';
+    const PASS_HASH = 'khabya';
+
+    function checkPassword() {
+      const input = document.getElementById('password-input');
+      const error = document.getElementById('password-error');
+      if (input.value === PASS_HASH) {
+        sessionStorage.setItem(PASS_KEY, 'true');
+        unlockPage();
+      } else {
+        error.textContent = 'Mot de passe incorrect';
+        input.value = '';
+        input.focus();
+      }
+    }
+
+    function unlockPage() {
+      document.getElementById('password-overlay').classList.add('hidden');
+      document.getElementById('protected-content').classList.add('unlocked');
+    }
+
+    // Check if already unlocked this session
+    if (sessionStorage.getItem(PASS_KEY) === 'true') {
+      unlockPage();
+    } else {
+      document.getElementById('password-input').focus();
+    }
 
     // Init
     applyLang('fr');
