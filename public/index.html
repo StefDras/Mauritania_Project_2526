@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consultation des amendes — République islamique de Mauritanie</title>
+  <style>
+    /* ===== Louguiya Font Faces ===== */
+    @font-face {
+      font-family: 'LouguiyaFR';
+      src: url('Louguiya_Fonts 2/LouguiyaFR.ttf') format('truetype');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'LouguiyaFR';
+      src: url('Louguiya_Fonts 2/LouguiyaFR Bold.ttf') format('truetype');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Louguiya';
+      src: url('Louguiya_Fonts 2/Louguiya.ttf') format('truetype');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Louguiya';
+      src: url('Louguiya_Fonts 2/Louguiya Bold.ttf') format('truetype');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+    /* ===== Design Tokens (from Khabiya/Figma) ===== */
+    :root {
+      --sds-color-background-brand-default: #2c2c2c;
+      --sds-color-background-brand-hover: #1e1e1e;
+      --sds-color-background-danger-default: #ec221f;
+      --sds-color-background-danger-hover: #c00f0c;
+      --sds-color-background-positive-default: #14ae5c;
+      --sds-color-background-positive-hover: #009951;
+      --sds-color-background-warning-default: #e8b931;
+      --sds-color-background-warning-hover: #e5a000;
+      --sds-color-background-disabled-default: #d9d9d9;
+      --sds-color-background-neutral-tertiary: #e3e3e3;
+      --sds-color-background-neutral-tertiary-hover: #cdcdcd;
+      --sds-color-background-danger-tertiary-hover: #fdd3d0;
+
+      --sds-color-text-default: #1e1e1e;
+      --sds-color-text-brand-on-brand: #f5f5f5;
+      --sds-color-text-danger-default: #900b09;
+      --sds-color-text-danger-on-danger: #fee9e7;
+      --sds-color-text-positive-on-positive: #ebffee;
+      --sds-color-text-warning-on-warning: #401b01;
+      --sds-color-text-disabled: #b3b3b3;
+      --sds-color-text-neutral: #303030;
+
+      --sds-color-border-default: #d9d9d9;
+      --sds-color-border-brand: #2c2c2c;
+      --sds-color-border-danger-default: #900b09;
+      --sds-color-border-danger-secondary: #c00f0c;
+      --sds-color-border-positive-default: #02542d;
+      --sds-color-border-positive-secondary: #009951;
+      --sds-color-border-warning-default: #522504;
+      --sds-color-border-warning-secondary: #975102;
+      --sds-color-border-neutral-secondary: #767676;
+      --sds-color-border-disabled: #b3b3b3;
+
+      --sds-size-space-100: 4px;
+      --sds-size-space-200: 8px;
+      --sds-size-space-300: 12px;
+      --sds-size-space-400: 16px;
+      --sds-size-space-500: 20px;
+      --sds-size-space-600: 24px;
+      --sds-size-space-800: 32px;
+      --sds-size-space-1000: 40px;
+      --sds-size-space-1200: 48px;
+      --sds-size-space-1600: 64px;
+
+      --sds-size-radius-200: 8px;
+      --sds-size-radius-100: 4px;
+      --sds-size-stroke-border: 1px;
+
+      --sds-font-family: 'LouguiyaFR', 'Louguiya', sans-serif;
+      --sds-font-size-sm: 14px;
+      --sds-font-size-md: 16px;
+      --sds-font-size-lg: 18px;
+      --sds-font-size-xl: 20px;
+      --sds-font-size-2xl: 24px;
+      --sds-font-size-3xl: 32px;
+    }
+
+    /* ===== Reset & Base ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--sds-font-family);
+      font-size: var(--sds-font-size-md);
+      color: var(--sds-color-text-default);
+      background: #f9f9f9;
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    [dir="rtl"] body, html[dir="rtl"] body {
+      direction: rtl;
+      text-align: right;
+    }
+
+    /* ===== Header ===== */
+    .header {
+      background: #fff;
+      border-bottom: 1px solid var(--sds-color-border-default);
+      padding: var(--sds-size-space-400) var(--sds-size-space-600);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--sds-size-space-400);
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: var(--sds-size-space-300);
+    }
+
+    .header-logo {
+      width: 48px;
+      height: 48px;
+      flex-shrink: 0;
+    }
+
+    .header-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .header-title {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header-title-main {
+      font-size: var(--sds-font-size-md);
+      font-weight: 700;
+      color: var(--sds-color-text-default);
+    }
+
+    .header-title-sub {
+      font-size: var(--sds-font-size-sm);
+      color: var(--sds-color-border-neutral-secondary);
+    }
+
+    .lang-dropdown {
+      position: relative;
+    }
+
+    .lang-toggle {
+      display: flex;
+      align-items: center;
+      gap: var(--sds-size-space-200);
+      background: var(--sds-color-background-neutral-tertiary);
+      padding: var(--sds-size-space-200) var(--sds-size-space-300);
+      border-radius: var(--sds-size-radius-200);
+      border: none;
+      cursor: pointer;
+      font-family: var(--sds-font-family);
+      font-size: var(--sds-font-size-sm);
+      font-weight: 700;
+      color: var(--sds-color-text-default);
+      transition: background 0.15s;
+    }
+
+    .lang-toggle:hover {
+      background: var(--sds-color-background-neutral-tertiary-hover);
+    }
+
+    .lang-toggle svg {
+      width: 14px;
+      height: 14px;
+      transition: transform 0.15s;
+    }
+
+    .lang-dropdown.open .lang-toggle svg {
+      transform: rotate(180deg);
+    }
+
+    [dir="rtl"] .lang-dropdown.open .lang-toggle svg {
+      transform: rotate(180deg);
+    }
+
+    .lang-menu {
+      position: absolute;
+      top: calc(100% + var(--sds-size-space-100));
+      right: 0;
+      background: #fff;
+      border: var(--sds-size-stroke-border) solid var(--sds-color-border-default);
+      border-radius: var(--sds-size-radius-200);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      min-width: 160px;
+      z-index: 200;
+      overflow: hidden;
+      display: none;
+    }
+
+    [dir="rtl"] .lang-menu {
+      right: auto;
+      left: 0;
+    }
+
+    .lang-dropdown.open .lang-menu {
+      display: block;
+    }
+
+    .lang-option {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: var(--sds-size-space-300) var(--sds-size-space-400);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: var(--sds-font-family);
+      font-size: var(--sds-font-size-sm);
+      color: var(--sds-color-text-default);
+      transition: background 0.1s;
+      text-align: start;
+    }
+
+    .lang-option:hover {
+      background: var(--sds-color-background-neutral-tertiary);
+    }
+
+    .lang-option.selected {
+      font-weight: 700;
+    }
+
+    .lang-check {
+      width: 16px;
+      height: 16px;
+      opacity: 0;
+    }
+
+    .lang-option.selected .lang-check {
+      opacity: 1;
+    }
+
+    /* ===== Main Content ===== */
+    .main {
+      flex: 1;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: var(--sds-size-space-1200) var(--sds-size-space-600);
+      width: 100%;
+    }
+
+    .page-title {
+      font-size: var(--sds-font-size-3xl);
+      font-weight: 700;
+      margin-bottom: var(--sds-size-space-200);
+    }
+
+    .page-subtitle {
+      font-size: var(--sds-font-size-lg);
+      color: var(--sds-color-border-neutral-secondary);
+      margin-bottom: var(--sds-size-space-1000);
+    }
+
+    /* ===== Tabs ===== */
+    .tabs {
+      display: flex;
+      gap: var(--sds-size-space-600);
+      border-bottom: 1px solid var(--sds-color-border-default);
+      margin-bottom: var(--sds-size-space-800);
+    }
+
+    .tab {
+      padding: var(--sds-size-space-300) 0;
+      font-size: var(--sds-font-size-md);
+      font-weight: 700;
+      color: var(--sds-color-border-neutral-secondary);
+      background: none;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      font-family: var(--sds-font-family);
+      transition: color 0.15s;
+    }
+
+    .tab:hover {
+      color: var(--sds-color-text-default);
+    }
+
+    .tab.active {
+      color: var(--sds-color-text-default);
+      font-weight: 700;
+    }
+
+    .tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--sds-color-background-brand-default);
+    }
+
+    /* ===== Form ===== */
+    .form-group {
+      margin-bottom: var(--sds-size-space-600);
+    }
+
+    .form-label {
+      display: block;
+      font-size: var(--sds-font-size-sm);
+      font-weight: 700;
+      margin-bottom: var(--sds-size-space-200);
+      color: var(--sds-color-text-default);
+    }
+
+    .form-input {
+      width: 100%;
+      padding: var(--sds-size-space-300) var(--sds-size-space-400);
+      font-size: var(--sds-font-size-md);
+      font-family: var(--sds-font-family);
+      border: var(--sds-size-stroke-border) solid var(--sds-color-border-default);
+      border-radius: var(--sds-size-radius-200);
+      color: var(--sds-color-text-default);
+      background: #fff;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .form-input::placeholder {
+      color: var(--sds-color-text-disabled);
+    }
+
+    .form-input:focus {
+      border-color: var(--sds-color-border-brand);
+    }
+
+    .form-helper {
+      font-size: var(--sds-font-size-sm);
+      color: var(--sds-color-border-neutral-secondary);
+      margin-top: var(--sds-size-space-100);
+    }
+
+    .form-actions {
+      display: flex;
+      gap: var(--sds-size-space-300);
+      margin-top: var(--sds-size-space-800);
+    }
+
+    /* ===== Buttons ===== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--sds-size-space-200);
+      padding: var(--sds-size-space-300) var(--sds-size-space-600);
+      font-size: var(--sds-font-size-md);
+      font-weight: 700;
+      font-family: var(--sds-font-family);
+      border-radius: var(--sds-size-radius-200);
+      border: var(--sds-size-stroke-border) solid transparent;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+      line-height: 1.5;
+    }
+
+    .btn-primary {
+      background: var(--sds-color-background-brand-default);
+      color: var(--sds-color-text-brand-on-brand);
+      border-color: var(--sds-color-border-brand);
+    }
+
+    .btn-primary:hover {
+      background: var(--sds-color-background-brand-hover);
+    }
+
+    .btn-secondary {
+      background: var(--sds-color-background-neutral-tertiary);
+      color: var(--sds-color-text-neutral);
+      border-color: var(--sds-color-border-default);
+    }
+
+    .btn-secondary:hover {
+      background: var(--sds-color-background-neutral-tertiary-hover);
+    }
+
+    .btn:disabled {
+      background: var(--sds-color-background-disabled-default);
+      color: var(--sds-color-text-disabled);
+      border-color: var(--sds-color-border-disabled);
+      cursor: not-allowed;
+    }
+
+    /* ===== Alert ===== */
+    .alert {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--sds-size-space-300);
+      padding: var(--sds-size-space-400);
+      border-radius: var(--sds-size-radius-200);
+      border: var(--sds-size-stroke-border) solid;
+      margin-bottom: var(--sds-size-space-600);
+      font-size: var(--sds-font-size-sm);
+    }
+
+    .alert-info {
+      background: #e8f4fd;
+      border-color: #b3d7f0;
+      color: #0a4b78;
+    }
+
+    .alert-error {
+      background: #fee9e7;
+      border-color: var(--sds-color-border-danger-secondary);
+      color: var(--sds-color-text-danger-default);
+    }
+
+    .alert-success {
+      background: #ebffee;
+      border-color: var(--sds-color-border-positive-secondary);
+      color: #02542d;
+    }
+
+    .alert-warning {
+      background: #fff8e1;
+      border-color: var(--sds-color-border-warning-secondary);
+      color: var(--sds-color-text-warning-on-warning);
+    }
+
+    .alert-icon {
+      font-size: var(--sds-font-size-lg);
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    .alert-content { flex: 1; }
+
+    .alert-title {
+      font-weight: 700;
+      margin-bottom: var(--sds-size-space-100);
+    }
+
+    .alert-dismiss {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: var(--sds-font-size-lg);
+      line-height: 1;
+      opacity: 0.6;
+      padding: 0;
+      color: inherit;
+    }
+
+    .alert-dismiss:hover { opacity: 1; }
+
+    .alert[hidden] { display: none; }
+
+    /* ===== Results ===== */
+    .results-section {
+      margin-top: var(--sds-size-space-1000);
+    }
+
+    .results-title {
+      font-size: var(--sds-font-size-xl);
+      font-weight: 700;
+      margin-bottom: var(--sds-size-space-400);
+    }
+
+    .results-count {
+      font-size: var(--sds-font-size-sm);
+      color: var(--sds-color-border-neutral-secondary);
+      margin-bottom: var(--sds-size-space-600);
+    }
+
+    /* ===== Cards ===== */
+    .card {
+      background: #fff;
+      border: var(--sds-size-stroke-border) solid var(--sds-color-border-default);
+      border-radius: var(--sds-size-radius-200);
+      padding: var(--sds-size-space-600);
+      margin-bottom: var(--sds-size-space-400);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: var(--sds-size-space-400);
+      gap: var(--sds-size-space-300);
+    }
+
+    .card-title {
+      font-size: var(--sds-font-size-lg);
+      font-weight: 700;
+    }
+
+    .card-ref {
+      font-size: var(--sds-font-size-sm);
+      color: var(--sds-color-border-neutral-secondary);
+      margin-top: var(--sds-size-space-100);
+    }
+
+    .card-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sds-size-space-400) var(--sds-size-space-800);
+      margin-bottom: var(--sds-size-space-400);
+    }
+
+    .card-field-label {
+      font-size: var(--sds-font-size-sm);
+      color: var(--sds-color-border-neutral-secondary);
+      margin-bottom: var(--sds-size-space-100);
+    }
+
+    .card-field-value {
+      font-size: var(--sds-font-size-md);
+      font-weight: 700;
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: var(--sds-size-space-300);
+      padding-top: var(--sds-size-space-400);
+      border-top: 1px solid var(--sds-color-border-default);
+    }
+
+    /* ===== Tags ===== */
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sds-size-space-100);
+      padding: var(--sds-size-space-100) var(--sds-size-space-300);
+      border-radius: var(--sds-size-radius-100);
+      font-size: var(--sds-font-size-sm);
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    .tag-danger {
+      background: #fee9e7;
+      color: var(--sds-color-text-danger-default);
+    }
+
+    .tag-success {
+      background: #ebffee;
+      color: #02542d;
+    }
+
+    .tag-warning {
+      background: #fff8e1;
+      color: var(--sds-color-text-warning-on-warning);
+    }
+
+    .tag-neutral {
+      background: var(--sds-color-background-neutral-tertiary);
+      color: var(--sds-color-text-neutral);
+    }
+
+    /* ===== Footer ===== */
+    .footer {
+      background: #fff;
+      border-top: 1px solid var(--sds-color-border-default);
+      padding: var(--sds-size-space-1200) var(--sds-size-space-600);
+      margin-top: auto;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: var(--sds-size-space-1000);
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--sds-size-space-300);
+    }
+
+    .footer-logo {
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+    }
+
+    .footer-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .footer-brand-name {
+      font-size: var(--sds-font-size-sm);
+      font-weight: 700;
+    }
+
+    .footer-brand-sub {
+      font-size: var(--sds-font-size-sm);
+      color: var(--sds-color-border-neutral-secondary);
+    }
+
+    .footer-section-title {
+      font-size: var(--sds-font-size-sm);
+      font-weight: 700;
+      margin-bottom: var(--sds-size-space-400);
+    }
+
+    .footer-link {
+      display: block;
+      font-size: var(--sds-font-size-sm);
+      color: var(--sds-color-border-neutral-secondary);
+      text-decoration: none;
+      margin-bottom: var(--sds-size-space-200);
+    }
+
+    .footer-link:hover {
+      color: var(--sds-color-text-default);
+    }
+
+    .footer-bottom {
+      max-width: 1200px;
+      margin: var(--sds-size-space-1000) auto 0;
+      padding-top: var(--sds-size-space-600);
+      border-top: 1px solid var(--sds-color-border-default);
+      font-size: var(--sds-font-size-sm);
+      color: var(--sds-color-border-neutral-secondary);
+    }
+
+    /* ===== Loading spinner ===== */
+    .spinner {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--sds-color-text-brand-on-brand);
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ===== Utilities ===== */
+    .hidden { display: none !important; }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 750px) {
+      .header-title {
+        display: none;
+      }
+
+      .main {
+        padding: var(--sds-size-space-800) var(--sds-size-space-400);
+      }
+
+      .page-title {
+        font-size: var(--sds-font-size-2xl);
+      }
+
+      .page-subtitle {
+        font-size: var(--sds-font-size-md);
+      }
+
+      .card-body {
+        grid-template-columns: 1fr;
+        gap: var(--sds-size-space-300);
+      }
+
+      .card-footer {
+        flex-direction: column;
+      }
+
+      .card-footer .btn {
+        width: 100%;
+      }
+
+      .form-actions {
+        flex-direction: column;
+      }
+
+      .form-actions .btn {
+        width: 100%;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr;
+        gap: var(--sds-size-space-800);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header-logo {
+        width: 36px;
+        height: 36px;
+        font-size: var(--sds-font-size-sm);
+      }
+
+      .tabs {
+        gap: var(--sds-size-space-400);
+      }
+
+      .page-title {
+        font-size: var(--sds-font-size-xl);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="header" role="banner">
+    <div class="header-inner">
+      <div class="header-brand">
+        <div class="header-logo"><img src="sceauRIM.svg" alt="Sceau de la République islamique de Mauritanie"></div>
+        <div class="header-title">
+          <span class="header-title-main" data-i18n="header.title">République islamique de Mauritanie</span>
+          <span class="header-title-sub" data-i18n="header.subtitle">Le Gouvernement</span>
+        </div>
+      </div>
+      <div class="lang-dropdown" id="lang-dropdown">
+        <button class="lang-toggle" onclick="toggleDropdown()" aria-haspopup="listbox" aria-expanded="false" aria-label="Changer de langue">
+          <span id="lang-label">Français</span>
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5l3 3 3-3"/></svg>
+        </button>
+        <div class="lang-menu" role="listbox" aria-label="Langue">
+          <button class="lang-option selected" role="option" aria-selected="true" data-lang="fr" onclick="selectLang('fr')">
+            <span>Français</span>
+            <svg class="lang-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8.5l3.5 3.5 6.5-8"/></svg>
+          </button>
+          <button class="lang-option" role="option" aria-selected="false" data-lang="ar" onclick="selectLang('ar')">
+            <span>عربي</span>
+            <svg class="lang-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8.5l3.5 3.5 6.5-8"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== MAIN ===== -->
+  <main class="main" role="main">
+    <h1 class="page-title" data-i18n="page.title">Consultation des amendes</h1>
+    <p class="page-subtitle" data-i18n="page.subtitle">Vérifiez si vous avez une amende de circulation ou une procédure en cours.</p>
+
+    <!-- Tabs -->
+    <div class="tabs" role="tablist">
+      <button class="tab active" role="tab" aria-selected="true" data-tab="citizen" onclick="switchTab('citizen')" data-i18n="tab.citizen">Citoyen</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="business" onclick="switchTab('business')" data-i18n="tab.business">Entreprise</button>
+    </div>
+
+    <!-- Alert (initially hidden) -->
+    <div id="alert-box" class="alert alert-info" hidden>
+      <span class="alert-icon" id="alert-icon">ℹ</span>
+      <div class="alert-content">
+        <div class="alert-title" id="alert-title"></div>
+        <div id="alert-message"></div>
+      </div>
+      <button class="alert-dismiss" onclick="dismissAlert()" aria-label="Fermer">&times;</button>
+    </div>
+
+    <!-- Citizen Form -->
+    <form id="form-citizen" onsubmit="handleSubmit(event, 'citizen')">
+      <div class="form-group">
+        <label class="form-label" for="nni" data-i18n="form.nni.label">Numéro National d'Identité (NNI)</label>
+        <input class="form-input" type="text" id="nni" maxlength="10" inputmode="numeric" pattern="[0-9]{10}" required data-i18n-placeholder="form.nni.placeholder" placeholder="Entrez votre NNI à 10 chiffres">
+        <div class="form-helper" data-i18n="form.nni.helper">Le NNI figure sur votre carte d'identité nationale.</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="plate-citizen" data-i18n="form.plate.label">Numéro d'immatriculation (optionnel)</label>
+        <input class="form-input" type="text" id="plate-citizen" data-i18n-placeholder="form.plate.placeholder" placeholder="Ex: 1234 AB 01">
+        <div class="form-helper" data-i18n="form.plate.helper">Ajoutez un numéro de plaque pour affiner la recherche.</div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn btn-primary" type="submit" id="btn-search-citizen">
+          <span data-i18n="form.search">Rechercher</span>
+        </button>
+        <button class="btn btn-secondary" type="reset" onclick="resetResults()" data-i18n="form.reset">Réinitialiser</button>
+      </div>
+    </form>
+
+    <!-- Business Form -->
+    <form id="form-business" class="hidden" onsubmit="handleSubmit(event, 'business')">
+      <div class="form-group">
+        <label class="form-label" for="nif" data-i18n="form.nif.label">Numéro d'Identification Fiscale (NIF)</label>
+        <input class="form-input" type="text" id="nif" required data-i18n-placeholder="form.nif.placeholder" placeholder="Entrez votre NIF">
+        <div class="form-helper" data-i18n="form.nif.helper">Le NIF figure sur votre registre de commerce.</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="plate-business" data-i18n="form.plate.label">Numéro d'immatriculation (optionnel)</label>
+        <input class="form-input" type="text" id="plate-business" data-i18n-placeholder="form.plate.placeholder" placeholder="Ex: 1234 AB 01">
+        <div class="form-helper" data-i18n="form.plate.helper">Ajoutez un numéro de plaque pour affiner la recherche.</div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn btn-primary" type="submit" id="btn-search-business">
+          <span data-i18n="form.search">Rechercher</span>
+        </button>
+        <button class="btn btn-secondary" type="reset" onclick="resetResults()" data-i18n="form.reset">Réinitialiser</button>
+      </div>
+    </form>
+
+    <!-- Results -->
+    <section id="results" class="results-section hidden" aria-live="polite">
+      <h2 class="results-title" data-i18n="results.title">Résultats</h2>
+      <p class="results-count" id="results-count"></p>
+      <div id="results-list"></div>
+    </section>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo"><img src="sceauRIM.svg" alt="Sceau de la République islamique de Mauritanie"></div>
+        <div>
+          <div class="footer-brand-name" data-i18n="header.title">République islamique de Mauritanie</div>
+          <div class="footer-brand-sub" data-i18n="footer.ministry">Ministère des Transports</div>
+        </div>
+      </div>
+      <div>
+        <div class="footer-section-title" data-i18n="footer.about">À propos</div>
+        <a href="#" class="footer-link" data-i18n="footer.aboutUs">À propos de nous</a>
+        <a href="#" class="footer-link" data-i18n="footer.mission">Mission</a>
+        <a href="#" class="footer-link" data-i18n="footer.legal">Documents juridiques</a>
+      </div>
+      <div>
+        <div class="footer-section-title" data-i18n="footer.services">Services</div>
+        <a href="#" class="footer-link" data-i18n="footer.onlineServices">Services en ligne</a>
+        <a href="#" class="footer-link" data-i18n="footer.offlineServices">Services hors ligne</a>
+        <a href="#" class="footer-link" data-i18n="footer.openData">Données ouvertes</a>
+      </div>
+      <div>
+        <div class="footer-section-title" data-i18n="footer.support">Support</div>
+        <a href="#" class="footer-link" data-i18n="footer.contact">Contactez-nous</a>
+        <a href="#" class="footer-link" data-i18n="footer.faq">Aide et FAQ</a>
+        <a href="#" class="footer-link" data-i18n="footer.accessibility">Accessibilité</a>
+      </div>
+    </div>
+    <div class="footer-bottom" data-i18n="footer.copyright">© 2026 République islamique de Mauritanie. Tous droits réservés.</div>
+  </footer>
+
+  <script>
+    // ===== i18n Strings =====
+    const i18n = {
+      fr: {
+        'header.title': 'République islamique de Mauritanie',
+        'header.subtitle': 'Le Gouvernement',
+        'page.title': 'Consultation des amendes',
+        'page.subtitle': 'Vérifiez si vous avez une amende de circulation ou une procédure en cours.',
+        'tab.citizen': 'Citoyen',
+        'tab.business': 'Entreprise',
+        'form.nni.label': 'Numéro National d\'Identité (NNI)',
+        'form.nni.placeholder': 'Entrez votre NNI à 10 chiffres',
+        'form.nni.helper': 'Le NNI figure sur votre carte d\'identité nationale.',
+        'form.nif.label': 'Numéro d\'Identification Fiscale (NIF)',
+        'form.nif.placeholder': 'Entrez votre NIF',
+        'form.nif.helper': 'Le NIF figure sur votre registre de commerce.',
+        'form.plate.label': 'Numéro d\'immatriculation (optionnel)',
+        'form.plate.placeholder': 'Ex: 1234 AB 01',
+        'form.plate.helper': 'Ajoutez un numéro de plaque pour affiner la recherche.',
+        'form.search': 'Rechercher',
+        'form.reset': 'Réinitialiser',
+        'results.title': 'Résultats',
+        'results.count': '{n} amende(s) trouvée(s)',
+        'results.none': 'Aucune amende trouvée',
+        'results.noneDesc': 'Aucune amende ou procédure en cours n\'a été trouvée pour les informations fournies.',
+        'card.ref': 'Réf:',
+        'card.date': 'Date',
+        'card.location': 'Lieu',
+        'card.amount': 'Montant',
+        'card.infraction': 'Infraction',
+        'card.plate': 'Plaque',
+        'card.status': 'Statut',
+        'card.details': 'Détails',
+        'card.pay': 'Payer',
+        'status.unpaid': 'Non payée',
+        'status.paid': 'Payée',
+        'status.pending': 'En cours',
+        'status.contested': 'Contestée',
+        'alert.searching': 'Recherche en cours...',
+        'alert.searchingDesc': 'Veuillez patienter pendant que nous interrogeons la base de données.',
+        'alert.error': 'Erreur',
+        'alert.errorDesc': 'Une erreur s\'est produite. Veuillez réessayer.',
+        'footer.ministry': 'Ministère des Transports',
+        'footer.about': 'À propos',
+        'footer.aboutUs': 'À propos de nous',
+        'footer.mission': 'Mission',
+        'footer.legal': 'Documents juridiques',
+        'footer.services': 'Services',
+        'footer.onlineServices': 'Services en ligne',
+        'footer.offlineServices': 'Services hors ligne',
+        'footer.openData': 'Données ouvertes',
+        'footer.support': 'Support',
+        'footer.contact': 'Contactez-nous',
+        'footer.faq': 'Aide et FAQ',
+        'footer.accessibility': 'Accessibilité',
+        'footer.copyright': '© 2026 République islamique de Mauritanie. Tous droits réservés.',
+        'langSwitch': 'عربي'
+      },
+      ar: {
+        'header.title': 'الجمهورية الإسلامية الموريتانية',
+        'header.subtitle': 'الحكومة',
+        'page.title': 'الاستعلام عن المخالفات',
+        'page.subtitle': 'تحقق مما إذا كان لديك مخالفة مرورية أو إجراء جارٍ.',
+        'tab.citizen': 'مواطن',
+        'tab.business': 'مؤسسة',
+        'form.nni.label': 'رقم التعريف الوطني (NNI)',
+        'form.nni.placeholder': 'أدخل رقم التعريف الوطني المكون من 10 أرقام',
+        'form.nni.helper': 'يوجد رقم التعريف الوطني على بطاقة هويتك.',
+        'form.nif.label': 'رقم التعريف الضريبي (NIF)',
+        'form.nif.placeholder': 'أدخل رقم التعريف الضريبي',
+        'form.nif.helper': 'يوجد رقم التعريف الضريبي على سجلك التجاري.',
+        'form.plate.label': 'رقم لوحة السيارة (اختياري)',
+        'form.plate.placeholder': 'مثال: 1234 AB 01',
+        'form.plate.helper': 'أضف رقم اللوحة لتحسين البحث.',
+        'form.search': 'بحث',
+        'form.reset': 'إعادة تعيين',
+        'results.title': 'النتائج',
+        'results.count': 'تم العثور على {n} مخالفة(ات)',
+        'results.none': 'لم يتم العثور على مخالفات',
+        'results.noneDesc': 'لم يتم العثور على مخالفات أو إجراءات جارية للمعلومات المقدمة.',
+        'card.ref': ':المرجع',
+        'card.date': 'التاريخ',
+        'card.location': 'المكان',
+        'card.amount': 'المبلغ',
+        'card.infraction': 'المخالفة',
+        'card.plate': 'اللوحة',
+        'card.status': 'الحالة',
+        'card.details': 'التفاصيل',
+        'card.pay': 'الدفع',
+        'status.unpaid': 'غير مدفوعة',
+        'status.paid': 'مدفوعة',
+        'status.pending': 'قيد المعالجة',
+        'status.contested': 'مطعون فيها',
+        'alert.searching': 'جاري البحث...',
+        'alert.searchingDesc': 'يرجى الانتظار أثناء استعلام قاعدة البيانات.',
+        'alert.error': 'خطأ',
+        'alert.errorDesc': 'حدث خطأ. يرجى المحاولة مرة أخرى.',
+        'footer.ministry': 'وزارة النقل',
+        'footer.about': 'حول',
+        'footer.aboutUs': 'معلومات عنا',
+        'footer.mission': 'المهمة',
+        'footer.legal': 'المستندات القانونية',
+        'footer.services': 'الخدمات',
+        'footer.onlineServices': 'الخدمات عبر الإنترنت',
+        'footer.offlineServices': 'الخدمات غير المتصلة بالإنترنت',
+        'footer.openData': 'البيانات المفتوحة',
+        'footer.support': 'الدعم',
+        'footer.contact': 'اتصل بنا',
+        'footer.faq': 'المساعدة والأسئلة الشائعة',
+        'footer.accessibility': 'إمكانية الوصول',
+        'footer.copyright': '© 2026 الجمهورية الإسلامية الموريتانية. جميع الحقوق محفوظة.',
+        'langSwitch': 'Français'
+      }
+    };
+
+    let currentLang = 'fr';
+
+    // ===== Mock Data =====
+    const mockFines = {
+      citizen: [
+        {
+          ref: 'AMR-2026-00147',
+          date: '2026-01-15',
+          location: 'Nouakchott — Avenue Gamal Abdel Nasser',
+          infraction: 'fr:Excès de vitesse (>80 km/h en zone urbaine)|ar:تجاوز السرعة (>80 كم/س في المنطقة الحضرية)',
+          plate: '3847 AC 01',
+          amount: '15 000 MRU',
+          status: 'unpaid'
+        },
+        {
+          ref: 'AMR-2025-09832',
+          date: '2025-11-03',
+          location: 'Nouadhibou — Route de la Plage',
+          infraction: 'fr:Stationnement interdit|ar:وقوف ممنوع',
+          plate: '3847 AC 01',
+          amount: '5 000 MRU',
+          status: 'paid'
+        },
+        {
+          ref: 'AMR-2025-08401',
+          date: '2025-09-20',
+          location: 'Nouakchott — Rond-point BMD',
+          infraction: 'fr:Non-respect du feu rouge|ar:عدم احترام الإشارة الحمراء',
+          plate: '3847 AC 01',
+          amount: '20 000 MRU',
+          status: 'contested'
+        }
+      ],
+      business: [
+        {
+          ref: 'AMR-2026-00201',
+          date: '2026-01-10',
+          location: 'Nouakchott — Zone Industrielle',
+          infraction: 'fr:Surcharge véhicule commercial|ar:التحميل الزائد لمركبة تجارية',
+          plate: '9012 TC 01',
+          amount: '50 000 MRU',
+          status: 'unpaid'
+        },
+        {
+          ref: 'AMR-2025-11540',
+          date: '2025-12-05',
+          location: 'Atar — Route Nationale 1',
+          infraction: 'fr:Documents de transport non conformes|ar:وثائق نقل غير مطابقة',
+          plate: '9012 TC 01',
+          amount: '30 000 MRU',
+          status: 'pending'
+        }
+      ]
+    };
+
+    // ===== Tab Switching =====
+    function switchTab(tab) {
+      document.querySelectorAll('.tab').forEach(t => {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
+      document.querySelector(`[data-tab="${tab}"]`).setAttribute('aria-selected', 'true');
+
+      document.getElementById('form-citizen').classList.toggle('hidden', tab !== 'citizen');
+      document.getElementById('form-business').classList.toggle('hidden', tab !== 'business');
+      resetResults();
+      dismissAlert();
+    }
+
+    // ===== Form Submit =====
+    function handleSubmit(e, type) {
+      e.preventDefault();
+      showAlert('info', t('alert.searching'), t('alert.searchingDesc'));
+      document.getElementById('results').classList.add('hidden');
+
+      // Simulate API call
+      setTimeout(() => {
+        dismissAlert();
+        showResults(type);
+      }, 1200);
+    }
+
+    // ===== Show Results =====
+    function showResults(type) {
+      const fines = mockFines[type];
+      const section = document.getElementById('results');
+      const list = document.getElementById('results-list');
+      const count = document.getElementById('results-count');
+
+      if (!fines || fines.length === 0) {
+        showAlert('success', t('results.none'), t('results.noneDesc'));
+        section.classList.add('hidden');
+        return;
+      }
+
+      count.textContent = t('results.count').replace('{n}', fines.length);
+      list.innerHTML = '';
+
+      fines.forEach(fine => {
+        const infraction = fine.infraction.split('|')
+          .find(s => s.startsWith(currentLang + ':'))
+          ?.replace(currentLang + ':', '') || fine.infraction;
+
+        const statusMap = {
+          unpaid:    { key: 'status.unpaid',    css: 'tag-danger' },
+          paid:      { key: 'status.paid',      css: 'tag-success' },
+          pending:   { key: 'status.pending',   css: 'tag-warning' },
+          contested: { key: 'status.contested', css: 'tag-neutral' }
+        };
+
+        const st = statusMap[fine.status];
+        const showPay = fine.status === 'unpaid';
+
+        list.innerHTML += `
+          <article class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">${infraction}</div>
+                <div class="card-ref">${t('card.ref')} ${fine.ref}</div>
+              </div>
+              <span class="tag ${st.css}">${t(st.key)}</span>
+            </div>
+            <div class="card-body">
+              <div>
+                <div class="card-field-label">${t('card.date')}</div>
+                <div class="card-field-value">${fine.date}</div>
+              </div>
+              <div>
+                <div class="card-field-label">${t('card.amount')}</div>
+                <div class="card-field-value">${fine.amount}</div>
+              </div>
+              <div>
+                <div class="card-field-label">${t('card.location')}</div>
+                <div class="card-field-value">${fine.location}</div>
+              </div>
+              <div>
+                <div class="card-field-label">${t('card.plate')}</div>
+                <div class="card-field-value">${fine.plate}</div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <button class="btn btn-secondary" onclick="alert('${t('card.details')}')">${t('card.details')}</button>
+              ${showPay ? `<button class="btn btn-primary">${t('card.pay')}</button>` : ''}
+            </div>
+          </article>
+        `;
+      });
+
+      section.classList.remove('hidden');
+    }
+
+    // ===== Alert =====
+    function showAlert(type, title, message) {
+      const box = document.getElementById('alert-box');
+      const icons = { info: 'ℹ', error: '✕', success: '✓', warning: '⚠' };
+      box.className = `alert alert-${type}`;
+      document.getElementById('alert-icon').textContent = icons[type] || 'ℹ';
+      document.getElementById('alert-title').textContent = title;
+      document.getElementById('alert-message').textContent = message || '';
+      box.removeAttribute('hidden');
+    }
+
+    function dismissAlert() {
+      document.getElementById('alert-box').setAttribute('hidden', '');
+    }
+
+    function resetResults() {
+      document.getElementById('results').classList.add('hidden');
+      document.getElementById('results-list').innerHTML = '';
+      dismissAlert();
+    }
+
+    // ===== i18n =====
+    function t(key) {
+      return i18n[currentLang][key] || key;
+    }
+
+    function applyLang(lang) {
+      currentLang = lang;
+      const html = document.documentElement;
+      html.setAttribute('lang', lang === 'ar' ? 'ar' : 'fr');
+      html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+
+      // Update dropdown label and selected state
+      const langNames = { fr: 'Français', ar: 'عربي' };
+      document.getElementById('lang-label').textContent = langNames[lang];
+      document.querySelectorAll('.lang-option').forEach(opt => {
+        const isSelected = opt.getAttribute('data-lang') === lang;
+        opt.classList.toggle('selected', isSelected);
+        opt.setAttribute('aria-selected', isSelected);
+      });
+
+      // Update all data-i18n elements
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (i18n[lang][key]) el.textContent = i18n[lang][key];
+      });
+
+      // Update placeholders
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (i18n[lang][key]) el.placeholder = i18n[lang][key];
+      });
+
+      // Re-render results if visible
+      const results = document.getElementById('results');
+      if (!results.classList.contains('hidden')) {
+        const activeTab = document.querySelector('.tab.active').getAttribute('data-tab');
+        showResults(activeTab);
+      }
+    }
+
+    // ===== Language Dropdown =====
+    function toggleDropdown() {
+      const dd = document.getElementById('lang-dropdown');
+      const btn = dd.querySelector('.lang-toggle');
+      const isOpen = dd.classList.toggle('open');
+      btn.setAttribute('aria-expanded', isOpen);
+    }
+
+    function selectLang(lang) {
+      applyLang(lang);
+      closeDropdown();
+    }
+
+    function closeDropdown() {
+      const dd = document.getElementById('lang-dropdown');
+      dd.classList.remove('open');
+      dd.querySelector('.lang-toggle').setAttribute('aria-expanded', 'false');
+    }
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+      const dd = document.getElementById('lang-dropdown');
+      if (!dd.contains(e.target)) {
+        closeDropdown();
+      }
+    });
+
+    // Close dropdown on Escape
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeDropdown();
+    });
+
+    // Init
+    applyLang('fr');
+  </script>
+</body>
+</html>
